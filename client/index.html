@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CURD Oparetion</title>
+</head>
+<body>
+    <form>
+        <input type="text" name="name" id="name">
+        <input type="email" name="email" id="email">
+        <input type="button" id="submit" value="submit" name="submit">
+    </form>
+    <p id="user"></p>
+
+    <script>
+        document.getElementById('submit').addEventListener('click',(e)=>{
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const user = {name,email};
+            fetch('http://localhost:5000/user',{
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(user),
+            }).then(res => res.json())
+                .then(data => {
+                    alert('User created successfully')
+                    console.log(data)
+                });
+        })
+        fetch('http://localhost:5000/user')
+            .then(res => res.json())
+            .then(data => displyUser(data));
+        const displyUser = (data) =>{
+           document.getElementById('user').innerText = data.length
+        }
+    </script>
+</body>
+</html>
